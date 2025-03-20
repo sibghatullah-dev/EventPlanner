@@ -1,29 +1,39 @@
-name: Node.js Build
+name: CI Workflow
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
-
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
 
       - name: Install Dependencies
         run: npm install
 
-      - name: Build Application
+      - name: Wait for MongoDB to be Ready
+        run: |
+          echo "Waiting for MongoDB..."
+          for i in {1..30}; do
+            nc -z localhost 27017 && echo "MongoDB is ready" && exit 0
+            echo -n "."
+            sleep 2
+          done
+          echo "MongoDB did not start in time" && exit 1
+
+      - name: Run Server
         run: node index.js
