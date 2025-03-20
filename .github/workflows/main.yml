@@ -26,4 +26,4 @@ jobs:
         run: npm install
 
       - name: Build Application
-        run: npm index.js
+        run: node index.js
