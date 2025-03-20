@@ -2,10 +2,7 @@ const mongoose = require("mongoose");
 
 const connectDB = async () => {
     try {
-        await mongoose.connect("mongodb://localhost:27017/eventplanner", {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
+        await mongoose.connect("mongodb://localhost:27017/eventplanner");
         console.log("MongoDB Connected");
     } catch (error) {
         console.error("MongoDB Connection Failed:", error.message);
