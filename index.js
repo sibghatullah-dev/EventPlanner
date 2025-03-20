@@ -16,3 +16,4 @@ app.use("/api/events", eventRoutes);
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 //writing comment to check the workflow
+//writing comment to check the workflow
